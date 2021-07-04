@@ -16,6 +16,7 @@ function App() {
       <header className="App-header">
         <p>I am a React Person</p>
         <Counter></Counter>
+        <Users></Users>
         {
           products.map(product => <Products product={product}></Products>)
         }
@@ -69,10 +70,34 @@ function Products(props) {
 }
 
 function Counter(props){
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(0);
+  const increaseHandler = () =>  setCount(count + 1);
+  const decreaseHandler = () =>  setCount(count - 1);
+  
   return (
     <div>
-      <h2>Count:{count}</h2>
+      <h2>Count: {count}</h2>
+      <button onClick={increaseHandler}>Increase</button>
+      <button onClick={decreaseHandler}>Decrease</button>
+    </div>
+  )
+}
+
+
+function Users(props){
+  const [user, setUser] = useState([]);
+  fetch('https://jsonplaceholder.typicode.com/users')
+  .then(response => response.json())
+  .then(data => setUser(data));
+
+  return (
+    <div>
+      <h2>Dynamic User: {user.length}</h2>
+      <ol>
+        {
+          user.map(user => <li>{user.name}</li>)
+        }
+      </ol>
     </div>
   )
 }
